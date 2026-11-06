@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Platform Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page-container">
+
+    <div class="header">
+
+        <div>
+            <h1>Scalable Event-Driven Notification Platform</h1>
+
+            <p>
+                A scalable event-driven notification platform built with Spring Boot, RabbitMQ, PostgreSQL, and Docker that delivers Email, SMS, and Push notifications through asynchronous messaging, retry and dead-letter queue processing, four concurrent consumers, and real-time health monitoring.
+            </p>
+        </div>
+
+
+    </div>
+
+    <!-- HERO SECTION -->
+
+    <div class="hero-section">
+
+        <!-- HEALTH CARDS -->
+
+        <div class="health-wrapper">
+            <div class="health-container">
+
+            <h2 class="health-title">
+                System Health
+            </h2>
+
+            <div class="health-section">
+
+                <div class="health-badge" id="appStatus">
+                    🟢 Application
+                </div>
+
+                <div class="health-badge" id="dbStatus">
+                    🟢 PostgreSQL
+                </div>
+
+                <div class="health-badge" id="rabbitStatus">
+                    🟢 RabbitMQ
+                </div>
+
+            </div>
+     </div>
+
+        </div>
+
+    </div>
+
+    <div id="notificationModal" class="modal">
+
+        <div class="modal-content">
+
+        <span id="closeModal" class="close-btn">
+            &times;
+        </span>
+
+            <h2>Send Notification</h2>
+
+            <form id="notificationForm">
+
+                <div class="form-row">
+
+                    <input
+                            type="text"
+                            id="userId"
+                            placeholder="User ID"
+                            required>
+
+                    <select id="channel" required>
+
+                        <option value="" selected disabled>
+                            Select Channel
+                        </option>
+
+                        <option value="EMAIL">
+                            📧 Email
+                        </option>
+
+                        <option value="SMS">
+                            📱 SMS
+                        </option>
+
+                        <option value="PUSH">
+                            🔔 Push
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-row">
+
+                    <input
+                            type="text"
+                            id="recipient"
+                            placeholder="Recipient"
+                            required>
+
+                    <select id="template" required>
+
+                        <option value="" selected disabled>
+                            Select Template
+                        </option>
+
+                        <option value="WELCOME">
+                            🎉 Welcome
+                        </option>
+
+                        <option value="PASSWORD_RESET">
+                            🔐 Password Reset
+                        </option>
+
+                        <option value="ORDER_CONFIRMATION">
+                            🛒 Order Confirmation
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <button type="submit">
+                    Send
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- METRICS SECTION -->
+
+    <div class="metrics-section">
+
+        <div class="metric-card">
+            <h3>📨 Total Notifications</h3>
+            <p id="total">0</p>
+        </div>
+
+        <div class="metric-card success">
+            <h3>✅ Sent Notifications</h3>
+            <p id="sent">0</p>
+        </div>
+
+        <div class="metric-card failed">
+            <h3>❌ Failed Notifications</h3>
+            <p id="failed">0</p>
+        </div>
+
+    </div>
+    <div class="action-buttons">
+
+        <button id="openModalBtn">
+            Send Notification
+        </button>
+
+        <button id="historyBtn">
+            Notification History
+        </button>
+
+        <button id="distributionBtn">
+            Notification Distribution
+        </button>
+
+    </div>
+
+    <div class="content-section">
+
+        <div id="historyView" style="display:none">
+
+            <table id="notificationTable">
+
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>User ID</th>
+                    <th>Channel</th>
+                    <th>Status</th>
+                    <th>Retry Count</th>
+                    <th>Recipient</th>
+                </tr>
+                </thead>
+
+                <tbody></tbody>
+
+            </table>
+
+            <div class="pagination">
+
+                <button id="prevBtn">
+                    ⬅ Previous
+                </button>
+
+                <span id="pageInfo">
+                Page 1
+            </span>
+
+                <button id="nextBtn">
+                    Next ➡
+                </button>
+
+            </div>
+
+        </div>
+
+        <div id="distributionView" style="display:none">
+
+            <div class="chart-section">
+
+            <h3 class="chart-title">
+                Channel Distribution
+            </h3>
+                
+                <canvas id="distributionChart"></canvas>
+
+                <div class="distribution-stats">
+
+                    <div class="stat-item">
+                        <span class="email-dot"></span>
+                        EMAIL
+                        <span id="emailCount">0</span>
+                    </div>
+
+                    <div class="stat-item">
+                        <span class="sms-dot"></span>
+                        SMS
+                        <span id="smsCount">0</span>
+                    </div>
+
+                    <div class="stat-item">
+                        <span class="push-dot"></span>
+                        PUSH
+                        <span id="pushCount">0</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<div id="toastOverlay" class="toast-overlay">
+    <div id="toast" class="toast-popup"></div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
